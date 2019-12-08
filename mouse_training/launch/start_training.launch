@@ -1,0 +1,5 @@
+<launch>
+    <rosparam command="load" file="$(find mouse_training)/config/one_disk_walk_openai_params.yaml" />
+    <!-- Launch the training system -->
+    <node pkg="mouse_training" name="movingcube_gym" type="oldway_start_training.py" output="screen"/>
+</launch>
