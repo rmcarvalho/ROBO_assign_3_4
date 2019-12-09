@@ -24,11 +24,11 @@ mouse: #namespace
     roll_speed_fixed_value: 100.0 # Speed at which it will move forwards or backwards
     roll_speed_increment_value: 10.0 # Increment that could be done in each step
 
-    max_distance: 2.0 # Maximum distance allowed for the RobotCube
+    max_distance: 2.0 # Maximum distance allowed for the RobotMouse
     max_pitch_angle: 0.2 # Maximum Angle radians in Pitch that we allow before terminating episode
     max_yaw_angle: 0.1 # Maximum yaw angle deviation, after that it starts getting negative rewards
 
-    init_cube_pose:
+    init_mouse_pose:
       x: 0.0
       y: 0.0
       z: 0.0

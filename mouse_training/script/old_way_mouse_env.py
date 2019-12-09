@@ -20,12 +20,12 @@ from geometry_msgs.msg import Point
 from tf.transformations import euler_from_quaternion
 
 reg = register(
-    id='OldMovingCube-v0',
-    entry_point='old_way_mouse_env:OldMovingCubeEnv',
+    id='OldMouse-v0',
+    entry_point='old_way_mouse_env:OldMouseEnv',
     timestep_limit=1000,
     )
 
-class OldMovingCubeEnv(gym.Env):
+class OldMouseEnv(gym.Env):
 
     def __init__(self):
 
@@ -44,9 +44,9 @@ class OldMovingCubeEnv(gym.Env):
         self.roll_speed_increment_value = rospy.get_param('/mouse/roll_speed_increment_value')
 
         self.start_point = Point()
-        self.start_point.x = rospy.get_param("/mouse/init_cube_pose/x")
-        self.start_point.y = rospy.get_param("/mouse/init_cube_pose/y")
-        self.start_point.z = rospy.get_param("/mouse/init_cube_pose/z")
+        self.start_point.x = rospy.get_param("/mouse/init_mouse_pose/x")
+        self.start_point.y = rospy.get_param("/mouse/init_mouse_pose/y")
+        self.start_point.z = rospy.get_param("/mouse/init_mouse_pose/z")
 
         # Done
         self.max_pitch_angle = rospy.get_param('/mouse/max_pitch_angle')
@@ -133,17 +133,17 @@ class OldMovingCubeEnv(gym.Env):
         pitch_angle = observations[3]
 
         if abs(pitch_angle) > self.max_pitch_angle:
-            rospy.logerr("WRONG Cube Pitch Orientation==>" + str(pitch_angle))
+            rospy.logerr("WRONG Mouse Pitch Orientation==>" + str(pitch_angle))
             done = True
         else:
-            rospy.logdebug("Cube Pitch Orientation Ok==>" + str(pitch_angle))
+            rospy.logdebug("Mouse Pitch Orientation Ok==>" + str(pitch_angle))
             done = False
 
         return done
 
     def set_action(self, action):
 
-        # We convert the actions to speed movements to send to the parent class CubeSingleDiskEnv
+        # We convert the actions to speed movements to send to the parent class MouseSingleDiskEnv
         if action == 0:# Move Speed Wheel Forwards
             self.roll_turn_speed = self.roll_speed_fixed_value
         elif action == 1:# Move Speed Wheel Backwards
@@ -162,7 +162,7 @@ class OldMovingCubeEnv(gym.Env):
                                           self.roll_speed_fixed_value)
         rospy.logdebug("roll_turn_speed after clamp==" + str(self.roll_turn_speed))
 
-        # We tell the OneDiskCube to spin the RollDisk at the selected speed
+        # We tell the OneDiskMouse to spin the RollDisk at the selected speed
         self.move_joints(self.roll_turn_speed)
 
 
@@ -170,11 +170,11 @@ class OldMovingCubeEnv(gym.Env):
         """
         Here we define what sensor data defines our robots observations
         To know which Variables we have acces to, we need to read the
-        MyCubeSingleDiskEnv API DOCS
+        MouseSingleDiskEnv API DOCS
         :return:
         """
 
-        # We get the orientation of the cube in RPY
+        # We get the orientation of the mouse in RPY
         roll, pitch, yaw = self.get_orientation_euler()
 
         # We get the distance from the origin
@@ -186,7 +186,7 @@ class OldMovingCubeEnv(gym.Env):
         # We get the linear speed in the y axis
         y_linear_speed = self.get_y_linear_speed()
 
-        cube_observations = [
+        mouse_observations = [
             round(current_disk_roll_vel, 0),
             round(y_distance, 1),
             round(roll, 1),
@@ -195,7 +195,7 @@ class OldMovingCubeEnv(gym.Env):
             round(yaw, 1),
         ]
 
-        return cube_observations
+        return mouse_observations
 
 
     def get_orientation_euler(self):
@@ -360,7 +360,7 @@ class OldMovingCubeEnv(gym.Env):
     def convert_obs_to_state(self,observations):
         """
         Converts the observations used for reward and so on to the essentials for the robot state
-        In this case we only need the orientation of the cube and the speed of the disc.
+        In this case we only need the orientation of the mouse and the speed of the disc.
         The distance doesnt condition at all the actions
         """
         disk_roll_vel = observations[0]

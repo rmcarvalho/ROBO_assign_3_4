@@ -234,7 +234,7 @@ def spawn_and_delete_test():
                                     object_pose=object_pose)
 
     object_pose.position.x = 0.1
-    model_name2 = "standard_cube"
+    model_name2 = "standard_mouse"
     spawndelete_obj.spawn_new_model(model_name=model_name2,
                                     model_type="models",
                                     models_package_name="spawn_robot_tools_pkg",
@@ -266,7 +266,7 @@ def spawn_and_delete_test_serverclient():
     response = spawndelete_client(request)
 
     object_pose.position.x = 0.1
-    model_name2 = "standard_cube"
+    model_name2 = "standard_mouse"
     request.model_name = model_name2
     request.initial_pose = object_pose
     response = spawndelete_client(request)
