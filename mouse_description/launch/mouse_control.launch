@@ -4,9 +4,6 @@
   <rosparam file="$(find mouse_description)/config/mouse.yaml"
             command="load"/>
 
-  <rosparam command="load"
-            file="$(find mouse_description)/config/diffdrive.yaml"/>
-
   <node name="robot_state_publisher_mouse" pkg="robot_state_publisher" type="robot_state_publisher"
         respawn="false" output="screen">
             <param name="publish_frequency" type="double" value="30.0" />
@@ -19,7 +16,10 @@
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             args="--namespace=/mouse
                       joint_state_controller
-                      diff_drive_controller">
+                      left_front_diff_drive_controller
+                      left_back_diff_drive_controller
+                      right_front_diff_drive_controller
+                      right_back_diff_drive_controller">
   </node>
 
   <node name="gazebo_model_odom_pubish_node"
