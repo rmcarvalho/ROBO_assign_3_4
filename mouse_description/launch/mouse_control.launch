@@ -18,8 +18,6 @@
                       joint_state_controller
                       left_front_diff_drive_controller
                       right_front_diff_drive_controller">
-                      <!-- left_back_diff_drive_controller
-                      right_back_diff_drive_controller -->
   </node>
 
   <node name="gazebo_model_odom_pubish_node"
