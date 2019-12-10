@@ -13,15 +13,15 @@ mouse:
       type: effort_controllers/JointVelocityController
       joint: left_front_wheel_joint
       pid: {p: 1.0, i: 0.0, d: 0.0}
-  left_back_diff_drive_controller:
-      type: effort_controllers/JointVelocityController
-      joint: left_back_wheel_joint
-      pid: {p: 1.0, i: 0.0, d: 0.0}
+  # left_back_diff_drive_controller:
+  #     type: effort_controllers/JointVelocityController
+  #     joint: left_back_wheel_joint
+  #     pid: {p: 1.0, i: 0.0, d: 0.0}
   right_front_diff_drive_controller:
       type: effort_controllers/JointVelocityController
       joint: right_front_wheel_joint
       pid: {p: 1.0, i: 0.0, d: 0.0}
-  right_back_diff_drive_controller:
-      type: effort_controllers/JointVelocityController
-      joint: right_back_wheel_joint
-      pid: {p: 1.0, i: 0.0, d: 0.0}
+  # right_back_diff_drive_controller:
+  #     type: effort_controllers/JointVelocityController
+  #     joint: right_back_wheel_joint
+  #     pid: {p: 1.0, i: 0.0, d: 0.0}

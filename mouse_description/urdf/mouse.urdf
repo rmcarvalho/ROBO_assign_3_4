@@ -109,6 +109,7 @@
       <child link="right_back_wheel"/>
       <origin rpy="0 0 0" xyz="-0.133333333333 -0.1 -0.135"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
+	  <mimic joint="right_front_wheel_joint"/>
     </joint>
 
 	<gazebo reference="right_back_wheel_joint">
@@ -199,6 +200,7 @@
 	  <child link="left_back_wheel"/>
 	  <origin rpy="0 0 0" xyz="-0.133333333333 0.1 -0.135"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
+	  <mimic joint="left_front_wheel_joint"/>
 	</joint>
 
 	<gazebo reference="left_back_wheel_joint">
