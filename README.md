@@ -2,11 +2,12 @@
 
 ## To run:
 ```
-roslaunch gazebo_ros empty_world.launch
+$ sudo cp -i src/mouse_description/worlds/arena.xml /usr/share/gazebo-7/worlds
+$ roslaunch mouse_description start_world.launch
 ```
 
 ```
-roslaunch mouse_description put_robot_in_world.launch 
+$ roslaunch mouse_description put_robot_in_world.launch 
 ```
 
 ## Moving the robot
