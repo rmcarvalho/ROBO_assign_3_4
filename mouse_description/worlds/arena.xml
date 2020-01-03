@@ -513,7 +513,6 @@
       <wall_time>1577989988 527875500</wall_time>
       <iterations>18807</iterations>
       <model name='ground_plane'>
-        <pose frame=''>0 0 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose frame=''>0 0 0 0 -0 0</pose>
