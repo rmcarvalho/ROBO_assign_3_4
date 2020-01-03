@@ -2,7 +2,10 @@
 
 ## To run:
 ```
-$ sudo cp -i src/mouse_description/worlds/arena.xml /usr/share/gazebo-7/worlds
+$ sudo cp -i src/Robo_assign_3_4/mouse_description/worlds/arena.xml /usr/share/gazebo-7/worlds
+or
+$ sudo cp -i src/Robo_assign_3_4/mouse_description/worlds/arena.xml /usr/share/gazebo-9/worlds
+
 $ roslaunch mouse_description start_world.launch
 ```
 
