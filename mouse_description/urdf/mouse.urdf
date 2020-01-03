@@ -72,7 +72,7 @@
 	  <mu2 value="100.0"/>
 	  <kp value="10000000.0" />
 	  <kd value="1.0" />
-	  <material>Gazebo/Grey</material>
+	  <material>Gazebo/TurquoiseGlow</material>
 	</gazebo>
 	<transmission name="right_front_wheel_trans">
 	  <type>transmission_interface/SimpleTransmission</type>
@@ -117,7 +117,7 @@
 	  <mu2 value="100.0"/>
 	  <kp value="10000000.0" />
 	  <kd value="1.0" />
-	  <material>Gazebo/Grey</material>
+	  <material>Gazebo/TurquoiseGlow</material>
 	</gazebo>
 	<transmission name="right_back_wheel_trans">
 	  <type>transmission_interface/SimpleTransmission</type>
@@ -161,7 +161,7 @@
 	  <mu2 value="100.0"/>
 	  <kp value="10000000.0" />
 	  <kd value="1.0" />
-	  <material>Gazebo/Grey</material>
+	  <material>Gazebo/TurquoiseGlow</material>
 	</gazebo>
 	<transmission name="left_front_wheel_trans">
 	  <type>transmission_interface/SimpleTransmission</type>
@@ -208,7 +208,7 @@
       <mu2 value="100.0"/>
       <kp value="10000000.0" />
       <kd value="1.0" />
-      <material>Gazebo/Grey</material>
+      <material>Gazebo/TurquoiseGlow</material>
     </gazebo>
 	<transmission name="left_back_wheel_trans">
       <type>transmission_interface/SimpleTransmission</type>
@@ -226,6 +226,6 @@
         <kd>1000000.0</kd>
         <mu1>1000000.0</mu1>
         <mu2>1000000.0</mu2>
-        <material>Gazebo/Blue</material>
+        <material>Gazebo/PurpleGlow</material>
     </gazebo>
 </robot>
