@@ -28,9 +28,9 @@
             <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
         </inertial>
         <collision>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.125"/>
             <geometry>
-                <box size="0.5 0.5 0.5"/>
+                <box size="0.7 0.5 0.3"/>
             </geometry>
         </collision>
 	    <visual>
@@ -38,7 +38,7 @@
 				<mesh filename="package://mouse_description/meshes/mouse.DAE"/>
 	      </geometry>
 	    </visual>
-    </link>
+    </link>	
 
 	<link name="right_front_wheel">
       <visual>
@@ -63,7 +63,7 @@
     <joint name="right_front_wheel_joint" type="continuous">
       <parent link="base_link"/>
       <child link="right_front_wheel"/>
-      <origin rpy="0 0 0" xyz="0.133333333333 -0.1 -0.135"/>
+      <origin rpy="0 0 0" xyz="0.133333333333 -0.1 -0.055"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
     </joint>
 
@@ -107,7 +107,7 @@
     <joint name="right_back_wheel_joint" type="continuous">
       <parent link="base_link"/>
       <child link="right_back_wheel"/>
-      <origin rpy="0 0 0" xyz="-0.133333333333 -0.1 -0.135"/>
+      <origin rpy="0 0 0" xyz="-0.133333333333 -0.1 -0.055"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
 	  <mimic joint="right_front_wheel_joint"/>
     </joint>
@@ -152,7 +152,7 @@
 	<joint name="left_front_wheel_joint" type="continuous">
 	  <parent link="base_link"/>
 	  <child link="left_front_wheel"/>
-	  <origin rpy="0 0 0" xyz="0.133333333333 0.1 -0.135"/>
+	  <origin rpy="0 0 0" xyz="0.133333333333 0.1 -0.055"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
 	</joint>
 
@@ -198,7 +198,7 @@
 	<joint name="left_back_wheel_joint" type="continuous">
 	  <parent link="base_link"/>
 	  <child link="left_back_wheel"/>
-	  <origin rpy="0 0 0" xyz="-0.133333333333 0.1 -0.135"/>
+	  <origin rpy="0 0 0" xyz="-0.133333333333 0.1 -0.055"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
 	  <mimic joint="left_front_wheel_joint"/>
 	</joint>
