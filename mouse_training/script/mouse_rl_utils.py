@@ -20,8 +20,7 @@ class MouseRLUtils(object):
         rospy.Subscriber("/mouse/joint_states", JointState, self.joints_callback)
         rospy.Subscriber("/mouse/odom", Odometry, self.odom_callback)
 
-        self._roll_vel_pub = rospy.Publisher('/mouse/inertia_wheel_roll_joint_velocity_controller/command', Float64, queue_size=1)
-        
+        self._roll_vel_pub = rospy.Publisher('/mouse/right_front_diff_drive_controller/command', Float64, queue_size=1)
         self.check_publishers_connection()
         
     

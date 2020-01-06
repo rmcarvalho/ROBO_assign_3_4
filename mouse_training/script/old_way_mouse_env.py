@@ -60,7 +60,7 @@ class OldMouseEnv(gym.Env):
         # stablishes connection with simulator
         self.gazebo = GazeboConnection()
         self.controllers_list = ['joint_state_controller',
-                         'inertia_wheel_roll_joint_velocity_controller'
+                         'right_front_diff_drive_controller'
                          ]
         self.controllers_object = ControllersConnection(namespace="mouse",
                                                         controllers_list=self.controllers_list)
@@ -74,8 +74,7 @@ class OldMouseEnv(gym.Env):
         rospy.Subscriber("/mouse/odom", Odometry, self.odom_callback)
 
 
-        self._roll_vel_pub = rospy.Publisher('/mouse/inertia_wheel_roll_joint_velocity_controller/command', Float64, queue_size=1)
-
+        self._roll_vel_pub = rospy.Publisher('/mouse/right_front_diff_drive_controller/command', Float64, queue_size=1)
         self.check_publishers_connection()
 
         self.gazebo.pauseSim()
