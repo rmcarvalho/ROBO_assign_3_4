@@ -253,7 +253,7 @@
     </transmission>
 
 	<!--  Sensors  -->
-	<!--<link name="mouse_sensor">
+	<link name="mouse_sensor">
 		<visual>
 			<origin xyz="0 0 0"/>
 			<geometry>
@@ -277,18 +277,37 @@
 
 	<gazebo reference="mouse_sensor">
 		<sensor type="ray" name="my_ray_sensor">
-			<pose>0 0 0 0 0 0</pose>
+			<pose>0 0 0.5 0 0 0</pose>
 			<visualize>true</visualize>
 			<update_rate>40</update_rate>
 			<ray>
-				<horizontal samples="100" resolution="1" min_angle="-1.5708" max_angle="1.5708"/>
-				<vertical samples="1" resolution="1" min_angle="0" max_angle="0"/>
+				<scan>
+					<horizontal>
+						<samples>720</samples>
+						<resolution>1</resolution>
+						<min_angle>-1.9198621772</min_angle>
+						<max_angle>1.9198621772</max_angle>
+					</horizontal>
+				</scan>
+				<range>
+					<min>0.10</min>
+					<max>2.5</max>
+					<resolution>1</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<!-- Noise parameters based on published spec for Hokuyo laser
+						achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+						stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+						reading. -->
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
 			</ray>
 			<plugin name="gazebo_ros_mouse_laser_controller" filename="libgazebo_ros_laser.so">
-			<topicName>/mouse/laser/scan</topicName>
-			<frameName>mouse_sensor</frameName>
+				<topicName>/mouse/laser/scan</topicName>
+				<frameName>mouse_sensor</frameName>
 			</plugin>
 		</sensor>
 	</gazebo>
-    -->
 </robot>
