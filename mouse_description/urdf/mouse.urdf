@@ -21,7 +21,7 @@
         </plugin>
     </gazebo>
 	
-	<!-- ------------- Base Link ------------- -->
+	<!--  Base Link -->
     
 	<link name="base_link">
         <inertial>
@@ -50,9 +50,9 @@
         <material>Gazebo/PurpleGlow</material>
     </gazebo>
 
-	<!-- ------------- Right Wheels ------------- -->
+	<!-- Right Wheels  -->
 	
-		<!-- ----------- Front ----------- -->
+		<!--  Front  -->
 		
 	<link name="right_front_wheel">
       <visual>
@@ -102,7 +102,7 @@
 	  </joint>
 	</transmission>
 
-		<!-- ----------- Back ----------- -->
+		<!--  Back  -->
 		
     <link name="right_back_wheel">
       <visual>
@@ -152,8 +152,8 @@
 	  </joint>
 	</transmission>
 
-	<!-- ------------- Left Wheels ------------- -->
-		<!-- ----------- Front ----------- -->
+	<!--  Left Wheels  -->
+		<!--  Front  -->
 		
 	<link name="left_front_wheel">
 	  <visual>
@@ -202,7 +202,7 @@
 	  </joint>
 	</transmission>
 
-		<!-- ----------- Back ----------- -->
+		<!--  Back  -->
 
 	<link name="left_back_wheel">
 	  <visual>
@@ -252,5 +252,43 @@
       </joint>
     </transmission>
 
-    
+	<!--  Sensors  -->
+	<!--<link name="mouse_sensor">
+		<visual>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<cylinder length="0.05" radius="0.035"/>
+			</geometry>
+			<material name="black"/>
+		</visual>
+		<collision>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<cylinder length="0.05" radius="0.035"/>
+			</geometry>
+		</collision>
+	</link>
+	
+	<joint name="sensor_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="mouse_sensor"/>
+		<origin rpy="0 0 0" xyz="0 0 0.5"/>
+	</joint>
+
+	<gazebo reference="mouse_sensor">
+		<sensor type="ray" name="my_ray_sensor">
+			<pose>0 0 0 0 0 0</pose>
+			<visualize>true</visualize>
+			<update_rate>40</update_rate>
+			<ray>
+				<horizontal samples="100" resolution="1" min_angle="-1.5708" max_angle="1.5708"/>
+				<vertical samples="1" resolution="1" min_angle="0" max_angle="0"/>
+			</ray>
+			<plugin name="gazebo_ros_mouse_laser_controller" filename="libgazebo_ros_laser.so">
+			<topicName>/mouse/laser/scan</topicName>
+			<frameName>mouse_sensor</frameName>
+			</plugin>
+		</sensor>
+	</gazebo>
+    -->
 </robot>
