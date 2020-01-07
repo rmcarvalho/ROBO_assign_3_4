@@ -21,6 +21,8 @@ import old_way_mouse_env
 
 if __name__ == '__main__':
 
+    print("HERE")
+
     rospy.init_node('mouse_gym', anonymous=True, log_level=rospy.WARN)
 
     # Create the Gym environment
@@ -56,9 +58,11 @@ if __name__ == '__main__':
     start_time = time.time()
     highest_reward = 0
 
+    print("HERE2")
     # Starts the main training loop: the one about the episodes to do
     for x in range(nepisodes):
         rospy.logdebug("############### START EPISODE=>" + str(x))
+        print("############### START EPISODE=>" + str(x))
 
         cumulated_reward = 0
         done = False

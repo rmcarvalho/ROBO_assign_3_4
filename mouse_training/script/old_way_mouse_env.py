@@ -84,7 +84,7 @@ class OldMouseEnv(gym.Env):
         self.np_random, seed = seeding.np_random(seed)
         return [seed]
 
-    def _step(self, action):#overriden function
+    def step(self, action):#overriden function
 
         self.gazebo.unpauseSim()
         self.set_action(action)
@@ -98,7 +98,7 @@ class OldMouseEnv(gym.Env):
         return simplified_obs, reward, done, info
 
 
-    def _reset(self):
+    def reset(self):
 
         self.gazebo.unpauseSim()
         self.controllers_object.reset_controllers()
