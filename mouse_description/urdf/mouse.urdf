@@ -26,8 +26,8 @@
 	<link name="base_link">
         <inertial>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <mass value="0.5" />
-            <inertia ixx="0.0141666666667" ixy="0.0" ixz="0.0" iyy="0.0241666666667" iyz="0.0" izz="0.0308333333333" />
+            <mass value="10" />
+            <inertia ixx="0.283333333333" ixy="0.0" ixz="0.0" iyy="0.483333333333" iyz="0.0" izz="0.616666666667" />
         </inertial>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0.126"/>
@@ -37,7 +37,7 @@
         </collision>
 	    <visual>
 	      <geometry>
-			<mesh filename="package://mouse_description/meshes/mouse.DAE"/>
+			<mesh filename="package://mouse_description/meshes/mouse.dae"/>
 	      </geometry>
 	    </visual>
     </link>
@@ -70,8 +70,8 @@
 	    </geometry>
       </collision>
       <inertial>
-	    <mass value="0.25"/>
-	    <inertia ixx="0.000128645833333" ixy="0.0" ixz="0.0" iyy="0.000128645833333" iyz="0.0" izz="0.000153125" />
+	    <mass value="1"/>
+	    <inertia ixx="0.000514583333333" ixy="0.0" ixz="0.0" iyy="0.000514583333333" iyz="0.0" izz="0.0006125" />
 	  </inertial>
     </link>
 	
@@ -119,8 +119,8 @@
 	    </geometry>
       </collision>
       <inertial>
-	    <mass value="0.25"/>
-	    <inertia ixx="0.000128645833333" ixy="0.0" ixz="0.0" iyy="0.000128645833333" iyz="0.0" izz="0.000153125" />
+	    <mass value="1"/>
+	    <inertia ixx="0.000514583333333" ixy="0.0" ixz="0.0" iyy="0.000514583333333" iyz="0.0" izz="0.0006125" />
 	  </inertial>
     </link>
 	
@@ -170,8 +170,8 @@
 	    </geometry>
       </collision>
       <inertial>
-	    <mass value="0.25"/>
-	    <inertia ixx="0.000128645833333" ixy="0.0" ixz="0.0" iyy="0.000128645833333" iyz="0.0" izz="0.000153125" />
+	    <mass value="1"/>
+	    <inertia ixx="0.000514583333333" ixy="0.0" ixz="0.0" iyy="0.000514583333333" iyz="0.0" izz="0.0006125" />
 	  </inertial>
 	</link>
 	
@@ -219,8 +219,8 @@
 	    </geometry>
       </collision>
       <inertial>
-	    <mass value="0.25"/>
-	    <inertia ixx="0.000128645833333" ixy="0.0" ixz="0.0" iyy="0.000128645833333" iyz="0.0" izz="0.000153125" />
+	    <mass value="1"/>
+	    <inertia ixx="0.000514583333333" ixy="0.0" ixz="0.0" iyy="0.000514583333333" iyz="0.0" izz="0.0006125" />
 	  </inertial>
 	</link>
 	
