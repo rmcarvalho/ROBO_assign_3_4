@@ -50,11 +50,9 @@
         <material>Gazebo/PurpleGlow</material>
     </gazebo>
 
-	<!-- Right Wheels  -->
-	
-		<!--  Front  -->
+	<!-- Right Wheel  -->
 		
-	<link name="right_front_wheel">
+	<link name="right_wheel">
       <visual>
         <origin rpy="1.57075 0 0" xyz="0 0 0"/>
         <geometry>
@@ -75,15 +73,15 @@
 	  </inertial>
     </link>
 	
-    <joint name="right_front_wheel_joint" type="continuous">
+    <joint name="right_wheel_joint" type="continuous">
       <parent link="base_link"/>
-      <child link="right_front_wheel"/>
+      <child link="right_wheel"/>
 	  <limit effort="200" velocity="1000.0" />
       <origin rpy="0 0 0" xyz="0.133333333333 -0.1 -0.055"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
     </joint>
 
-	<gazebo reference="right_back_wheel_joint">
+	<gazebo reference="right_wheel_joint">
 	  <mu1 value="200.0"/>
 	  <mu2 value="100.0"/>
 	  <kp value="10000000.0" />
@@ -91,71 +89,20 @@
 	  <material>Gazebo/BlueGlow</material>
 	</gazebo>
 	
-	<transmission name="right_front_wheel_trans">
+	<transmission name="right_wheel_trans">
 	  <type>transmission_interface/SimpleTransmission</type>
-	  <actuator name="right_front_wheel_motor">
+	  <actuator name="right_wheel_motor">
 		  <mechanicalReduction>1</mechanicalReduction>
 		  <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
 	  </actuator>
-	  <joint name="right_front_wheel_joint">
+	  <joint name="right_wheel_joint">
 		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
 	  </joint>
 	</transmission>
 
-		<!--  Back  -->
+	<!--  Left Wheel  -->
 		
-    <link name="right_back_wheel">
-      <visual>
-        <origin rpy="1.57075 0 0" xyz="0 0 0"/>
-        <geometry>
-          <cylinder length="0.05" radius="0.035"/>
-        </geometry>
-        <material name="black"/>
-      </visual>
-	  <collision>
-	    <origin rpy="1.57075 0 0" xyz="0 0 0"/>
-	    <geometry>
-	      <cylinder length="0.05" radius="0.035"/>
-	    </geometry>
-      </collision>
-      <inertial>
-	    <mass value="1"/>
-	    <inertia ixx="0.000514583333333" ixy="0.0" ixz="0.0" iyy="0.000514583333333" iyz="0.0" izz="0.0006125" />
-	  </inertial>
-    </link>
-	
-    <joint name="right_back_wheel_joint" type="continuous">
-      <parent link="base_link"/>
-      <child link="right_back_wheel"/>
-	  <limit effort="200" velocity="1000.0" />
-      <origin rpy="0 0 0" xyz="-0.133333333333 -0.1 -0.055"/>
-	  <axis rpy="0 0 0" xyz="0 1 0"/>
-	  <mimic joint="right_front_wheel_joint"/>
-    </joint>
-
-	<gazebo reference="right_back_wheel_joint">
-	  <mu1 value="200.0"/>
-	  <mu2 value="100.0"/>
-	  <kp value="10000000.0" />
-	  <kd value="1.0" />
-	  <material>Gazebo/BlueGlow</material>
-	</gazebo>
-	
-	<transmission name="right_back_wheel_trans">
-	  <type>transmission_interface/SimpleTransmission</type>
-	  <actuator name="right_back_wheel_motor">
-		<mechanicalReduction>1</mechanicalReduction>
-		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-	  </actuator>
-	  <joint name="right_back_wheel_joint">
-		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-	  </joint>
-	</transmission>
-
-	<!--  Left Wheels  -->
-		<!--  Front  -->
-		
-	<link name="left_front_wheel">
+	<link name="left_wheel">
 	  <visual>
 		<origin rpy="1.57075 0 0" xyz="0 0 0"/>
 		<geometry>
@@ -175,15 +122,15 @@
 	  </inertial>
 	</link>
 	
-	<joint name="left_front_wheel_joint" type="continuous">
+	<joint name="left_wheel_joint" type="continuous">
 	  <parent link="base_link"/>
-	  <child link="left_front_wheel"/>
+	  <child link="left_wheel"/>
 	  <limit effort="200" velocity="1000.0" />
 	  <origin rpy="0 0 0" xyz="0.133333333333 0.1 -0.055"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
 	</joint>
 
-	<gazebo reference="left_front_wheel_joint">
+	<gazebo reference="left_wheel_joint">
 	  <mu1 value="200.0"/>
 	  <mu2 value="100.0"/>
 	  <kp value="10000000.0" />
@@ -191,31 +138,29 @@
 	  <material>Gazebo/BlueGlow</material>
 	</gazebo>
 	
-	<transmission name="left_front_wheel_trans">
+	<transmission name="left_wheel_trans">
 	  <type>transmission_interface/SimpleTransmission</type>
-	  <actuator name="left_front_wheel_motor">
+	  <actuator name="left_wheel_motor">
 		<mechanicalReduction>1</mechanicalReduction>
 		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
 	  </actuator>
-	  <joint name="left_front_wheel_joint">
+	  <joint name="left_wheel_joint">
 		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
 	  </joint>
 	</transmission>
 
-		<!--  Back  -->
+	<!--  Back  -->
 
-	<link name="left_back_wheel">
+	<link name="back_wheel">
 	  <visual>
-		<origin rpy="1.57075 0 0" xyz="0 0 0"/>
 		<geometry>
-		  <cylinder length="0.05" radius="0.035"/>
+		  <sphere radius="0.035"/>
 		</geometry>
 		<material name="black"/>
 	  </visual>
 	  <collision>
-	    <origin rpy="1.57075 0 0" xyz="0 0 0"/>
 	    <geometry>
-	      <cylinder length="0.05" radius="0.035"/>
+	      <sphere radius="0.035"/>
 	    </geometry>
       </collision>
       <inertial>
@@ -224,30 +169,29 @@
 	  </inertial>
 	</link>
 	
-	<joint name="left_back_wheel_joint" type="continuous">
+	<joint name="back_wheel_joint" type="continuous">
 	  <parent link="base_link"/>
-	  <child link="left_back_wheel"/>
+	  <child link="back_wheel"/>
 	  <limit effort="200" velocity="1000.0" />
-	  <origin rpy="0 0 0" xyz="-0.133333333333 0.1 -0.055"/>
+	  <origin rpy="0 0 0" xyz="-0.15 0 -0.055"/>
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
-	  <mimic joint="left_front_wheel_joint"/>
 	</joint>
 
-	<gazebo reference="left_back_wheel_joint">
-      <mu1 value="200.0"/>
-      <mu2 value="100.0"/>
+	<gazebo reference="back_wheel_joint">
+      <mu1 value="0.0"/>
+      <mu2 value="0.0"/>
       <kp value="10000000.0" />
       <kd value="1.0" />
       <material>Gazebo/BlueGlow</material>
     </gazebo>
 	
-	<transmission name="left_back_wheel_trans">
+	<transmission name="back_wheel_trans">
       <type>transmission_interface/SimpleTransmission</type>
-      <actuator name="left_back_wheel_motor">
+      <actuator name="back_wheel_motor">
         <mechanicalReduction>1</mechanicalReduction>
 		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       </actuator>
-      <joint name="left_back_wheel_joint">
+      <joint name="back_wheel_joint">
         <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       </joint>
     </transmission>

@@ -16,8 +16,8 @@
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
             args="--namespace=/mouse
                       joint_state_controller
-                      left_front_diff_drive_controller
-                      right_front_diff_drive_controller">
+                      left_diff_drive_controller
+                      right_diff_drive_controller">
   </node>
 
   <node name="gazebo_model_odom_pubish_node"
