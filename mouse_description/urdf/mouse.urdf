@@ -81,7 +81,7 @@
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
     </joint>
 
-	<gazebo reference="right_wheel_joint">
+	<gazebo reference="right_wheel">
 	  <mu1 value="200.0"/>
 	  <mu2 value="100.0"/>
 	  <kp value="10000000.0" />
@@ -130,7 +130,7 @@
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
 	</joint>
 
-	<gazebo reference="left_wheel_joint">
+	<gazebo reference="left_wheel">
 	  <mu1 value="200.0"/>
 	  <mu2 value="100.0"/>
 	  <kp value="10000000.0" />
@@ -177,7 +177,7 @@
 	  <axis rpy="0 0 0" xyz="0 1 0"/>
 	</joint>
 
-	<gazebo reference="back_wheel_joint">
+	<gazebo reference="back_wheel">
       <mu1 value="0.0"/>
       <mu2 value="0.0"/>
       <kp value="10000000.0" />
