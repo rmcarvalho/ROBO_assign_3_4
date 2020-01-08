@@ -22,7 +22,8 @@ class MouseUtils(object):
 
         rospy.Subscriber("/mouseA/joint_states", JointState, self.joints_callback)
         rospy.Subscriber("/mouseA/odom", Odometry, self.odom_callback)
-        # rospy.Subscriber("/mouse/laser/scan", LaserScan, self.laser_callback)
+        rospy.Subscriber("/mouseA/laser/cat_scan", LaserScan, self.laser_cat_callback)
+        rospy.Subscriber("/mouseA/laser/wall_scan", LaserScan, self.laser_wall_callback)
 
         self._right_roll_vel = rospy.Publisher('/mouseA/right_diff_drive_controller/command', Float64, queue_size=1)
         self._left_roll_vel = rospy.Publisher('/mouseA/left_diff_drive_controller/command', Float64, queue_size=1)
@@ -35,7 +36,6 @@ class MouseUtils(object):
             try:
                 self.disk_joints_data = rospy.wait_for_message("/mouseA/joint_states", JointState, timeout=1.0)
                 rospy.loginfo("Current mouse/joint_states READY=>"+str(self.disk_joints_data))
-
             except:
                 rospy.logerr("Current mouse/joint_states not ready yet, retrying for getting joint_states")
 
@@ -44,18 +44,24 @@ class MouseUtils(object):
             try:
                 self.mouse_odom_data = rospy.wait_for_message("/mouseA/odom", Odometry, timeout=1.0)
                 rospy.loginfo("Current /mouseA/odom READY=>" + str(self.mouse_odom_data))
-
             except:
                 rospy.logerr("Current /mouseA/odom not ready yet, retrying for getting odom")
 
-        # self.mouse_laser_data = None
-        # while self.mouse_laser_data is None and not rospy.is_shutdown():
-        #     try:
-        #         self.mouse_laser_data = rospy.wait_for_message("/mouse/laser/scan", LaserScan, timeout=1.0)
-        #         rospy.loginfo("Current /mouse/laser/scan READY=>" + str(self.mouse_laser_data))
+        self.mouse_laser_wall_data = None
+        while self.mouse_laser_wall_data is None and not rospy.is_shutdown():
+            try:
+                self.mouse_laser_wall_data = rospy.wait_for_message("/mouseA/laser/wall_scan", LaserScan, timeout=1.0)
+                rospy.loginfo("Current /mouseA/laser/wall_scan READY=>" + str(self.mouse_laser_wall_data))
+            except:
+                rospy.logerr("Current /mouseA/laser/wall_scan not ready yet, retrying for getting laser scan")
 
-        #     except:
-        #         rospy.logerr("Current /mouse/laser/scan not ready yet, retrying for getting laser scan")
+        self.mouse_laser_cat_data = None
+        while self.mouse_laser_cat_data is None and not rospy.is_shutdown():
+            try:
+                self.mouse_laser_cat_data = rospy.wait_for_message("/mouseA/laser/cat_scan", LaserScan, timeout=1.0)
+                rospy.loginfo("Current /mouseA/laser/cat_scan READY=>" + str(self.mouse_laser_cat_data))
+            except:
+                rospy.logerr("Current /mouseA/laser/cat_scan not ready yet, retrying for getting laser scan")
 
         rospy.loginfo("ALL SENSORS READY")
 
@@ -90,12 +96,15 @@ class MouseUtils(object):
     def odom_callback(self, data):
         self.odom = data
 
-    def laser_callback(self, data):
-        self.laser = data
+    def laser_wall_callback(self, data):
+        self.laser_wall = data
+
+    def laser_cat_callback(self, data):
+        self.laser_cat = data
 
     def move_robot(self, linear_vel, angular_vel):
-        wheel_dist = 0.4
-        wheel_radius = 0.08
+        wheel_dist = 0.2
+        wheel_radius = 0.035
 
         right_wheel_ang_vel = (linear_vel + (angular_vel*(wheel_dist/2.0)))/wheel_radius
         left_wheel_ang_vel = (linear_vel - (angular_vel*(wheel_dist/2.0)))/wheel_radius
@@ -110,8 +119,6 @@ class MouseUtils(object):
         left_joint_speed_value.data = roll_speed_left
         right_joint_speed_value.data = roll_speed_right
 
-        #rospy.loginfo("Left Wheel Velocity>>"+str(left_joint_speed_value))
-        #rospy.loginfo("Right Wheel Velocity>>"+str(right_joint_speed_value))
         self._right_roll_vel.publish(right_joint_speed_value)
         self._left_roll_vel.publish(left_joint_speed_value)
 
@@ -144,18 +151,18 @@ class MouseUtils(object):
 
         return mouse_state
 
-    def observation_checks(self, mouse_state):
-        # Maximum distance to travel permited in meters from origin
-        max_distance=10.0
+    # def observation_checks(self, mouse_state):
+    #     # Maximum distance to travel permited in meters from origin
+    #     max_distance=10.0
 
-        if (mouse_state[1] > max_distance):
-            rospy.logerr("Mouse Too Far==>"+str(mouse_state[1]))
-            done = True
-        else:
-            rospy.loginfo("Mouse NOT Too Far==>"+str(mouse_state[1]))
-            done = False
+    #     if (mouse_state[1] > max_distance):
+    #         rospy.logerr("Mouse Too Far==>"+str(mouse_state[1]))
+    #         done = True
+    #     else:
+    #         rospy.loginfo("Mouse NOT Too Far==>"+str(mouse_state[1]))
+    #         done = False
 
-        return done
+    #     return done
 
     def get_distance_from_point(self, pstart, p_end):
         """
@@ -170,60 +177,60 @@ class MouseUtils(object):
 
         return distance
 
-    def get_reward_for_observations(self, state):
+    # def get_reward_for_observations(self, state):
 
-        # We reward it for lower speeds and distance traveled
+    #     # We reward it for lower speeds and distance traveled
 
-        speed = state[0]
-        distance = state[1]
+    #     speed = state[0]
+    #     distance = state[1]
 
-        # Positive Reinforcement
-        reward_distance = distance * 10.0
-        # Negative Reinforcement for magnitude of speed
-        reward_for_efective_movement = -1 * abs(speed)
+    #     # Positive Reinforcement
+    #     reward_distance = distance * 10.0
+    #     # Negative Reinforcement for magnitude of speed
+    #     reward_for_efective_movement = -1 * abs(speed)
 
-        reward = reward_distance + reward_for_efective_movement
+    #     reward = reward_distance + reward_for_efective_movement
 
-        rospy.loginfo("Reward_distance="+str(reward_distance))
-        rospy.loginfo("Reward_for_efective_movement= "+str(reward_for_efective_movement))
+    #     rospy.loginfo("Reward_distance="+str(reward_distance))
+    #     rospy.loginfo("Reward_for_efective_movement= "+str(reward_for_efective_movement))
 
-        return reward
+    #     return reward
 
-def mouse_systems_test():
-    rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
+# def mouse_systems_test():
+#     rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
 
-    mouse_utils_object = MouseUtils()
+#     mouse_utils_object = MouseUtils()
 
-    rospy.loginfo("Moving to Linear==>1.0 Angular==>0.0")
-    mouse_utils_object.move_robot(linear_vel=0.5, angular_vel=0.0)
-    time.sleep(4)
+#     rospy.loginfo("Moving to Linear==>1.0 Angular==>0.0")
+#     mouse_utils_object.move_robot(linear_vel=0.5, angular_vel=0.0)
+#     time.sleep(4)
 
-    rospy.loginfo("Stopping")
-    mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
-    time.sleep(4)
+#     rospy.loginfo("Stopping")
+#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
+#     time.sleep(4)
 
-    rospy.loginfo("Moving to Linear==>0 Angular==>-1.0")
-    mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=-1.0)
-    time.sleep(4)
+#     rospy.loginfo("Moving to Linear==>0 Angular==>-1.0")
+#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=-1.0)
+#     time.sleep(4)
 
-    rospy.loginfo("Stoping")
-    mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
-    time.sleep(4)
+#     rospy.loginfo("Stoping")
+#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
+#     time.sleep(4)
 
-    rospy.loginfo("Moving to Linear==>-0.2 Angular==>0")
-    mouse_utils_object.move_robot(linear_vel=-0.2, angular_vel=0.0)
-    time.sleep(4)
+#     rospy.loginfo("Moving to Linear==>-0.2 Angular==>0")
+#     mouse_utils_object.move_robot(linear_vel=-0.2, angular_vel=0.0)
+#     time.sleep(4)
 
-    rospy.loginfo("Stoping")
-    mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
-    time.sleep(4)
+#     rospy.loginfo("Stoping")
+#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
+#     time.sleep(4)
 
-    mouse_state = mouse_utils_object.get_mouse_state()
-    done = mouse_utils_object.observation_checks(mouse_state)
-    reward = mouse_utils_object.get_reward_for_observations(mouse_state)
+#     mouse_state = mouse_utils_object.get_mouse_state()
+#     done = mouse_utils_object.observation_checks(mouse_state)
+#     reward = mouse_utils_object.get_reward_for_observations(mouse_state)
 
-    rospy.loginfo("Done==>"+str(done))
-    rospy.loginfo("Reward==>"+str(reward))
+#     rospy.loginfo("Done==>"+str(done))
+#     rospy.loginfo("Reward==>"+str(reward))
 
 def on_press(key):
     if key.char == 'w':
@@ -281,29 +288,42 @@ def movement_controller():
     else:
         mouse.move_robot(linear_vel=0.0, angular_vel=0.0)
 
+def wander():
+    pass # move until wall found
+
+def run():
+    pass # run from mouse
+
+def follow_wall():
+    pass # follow wall if found and no immediate danger
+
+def decide():
+    pass # check if cat around or wall found decide to follow wall or wander or run
 
 mouse = None
-# w, a, s, d, e
-keys = [False, False, False, False, False]
+# # w, a, s, d, e
+# keys = [False, False, False, False, False]
 
 if __name__ == "__main__":
-    # mouse_systems_test()
-    rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
+    # # mouse_systems_test()
+    # rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
 
     mouse = MouseUtils()
 
-    listener = keyboard.Listener(on_press=on_press, on_release=on_release)
 
-    os.system("stty -echo")
-    listener.start()
+# #   KEYBOARD controlls
+#     listener = keyboard.Listener(on_press=on_press, on_release=on_release)
 
-    rospy.loginfo('Started keyboard listener')
+#     # os.system("stty -echo")
+#     listener.start()
 
-    rate = rospy.Rate(10)
+#     rospy.loginfo('Started keyboard listener')
 
-    while not keys[4]:
-        movement_controller()
-        rate.sleep()
+#     rate = rospy.Rate(10)
 
-    listener.join()
-    os.system("stty echo")
+#     while not keys[4]:
+#         movement_controller()
+#         rate.sleep()
+
+#     listener.join()
+    # os.system("stty echo")
