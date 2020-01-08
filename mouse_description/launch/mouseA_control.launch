@@ -4,26 +4,26 @@
   <rosparam file="$(find mouse_description)/config/mouse.yaml"
             command="load"/>
 
-  <node name="robot_state_publisher_mouse" pkg="robot_state_publisher" type="robot_state_publisher"
+  <node name="robot_state_publisher_mouseA" pkg="robot_state_publisher" type="robot_state_publisher"
         respawn="false" output="screen">
             <param name="publish_frequency" type="double" value="30.0" />
             <param name="ignore_timestamp" type="bool" value="true" />
-            <param name="tf_prefix" type="string" value="mouse" />
-            <remap from="/joint_states" to="/mouse/joint_states" />
+            <param name="tf_prefix" type="string" value="mouseA" />
+            <remap from="/joint_states" to="/mouseA/joint_states" />
         </node>
 
 
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-            args="--namespace=/mouse
+            args="--namespace=/mouseA
                       joint_state_controller
                       left_diff_drive_controller
                       right_diff_drive_controller">
   </node>
 
-  <node name="gazebo_model_odom_pubish_node"
+  <node name="mouseA_odom_pubish_node"
         pkg="mouse_description"
         type="get_gazebo_model_odometry.py" respawn="false"
-        output="screen" args="">
+        output="screen" args="mouseA">
   </node>
 
 </launch>

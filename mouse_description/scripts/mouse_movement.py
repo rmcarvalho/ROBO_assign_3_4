@@ -20,12 +20,12 @@ class MouseUtils(object):
 
         self.check_all_sensors_ready()
 
-        rospy.Subscriber("/mouse/joint_states", JointState, self.joints_callback)
-        rospy.Subscriber("/mouse/odom", Odometry, self.odom_callback)
+        rospy.Subscriber("/mouseA/joint_states", JointState, self.joints_callback)
+        rospy.Subscriber("/mouseA/odom", Odometry, self.odom_callback)
         # rospy.Subscriber("/mouse/laser/scan", LaserScan, self.laser_callback)
 
-        self._right_roll_vel = rospy.Publisher('/mouse/right_diff_drive_controller/command', Float64, queue_size=1)
-        self._left_roll_vel = rospy.Publisher('/mouse/left_diff_drive_controller/command', Float64, queue_size=1)
+        self._right_roll_vel = rospy.Publisher('/mouseA/right_diff_drive_controller/command', Float64, queue_size=1)
+        self._left_roll_vel = rospy.Publisher('/mouseA/left_diff_drive_controller/command', Float64, queue_size=1)
 
         self.check_publishers_connection()
 
@@ -33,7 +33,7 @@ class MouseUtils(object):
         self.disk_joints_data = None
         while self.disk_joints_data is None and not rospy.is_shutdown():
             try:
-                self.disk_joints_data = rospy.wait_for_message("/mouse/joint_states", JointState, timeout=1.0)
+                self.disk_joints_data = rospy.wait_for_message("/mouseA/joint_states", JointState, timeout=1.0)
                 rospy.loginfo("Current mouse/joint_states READY=>"+str(self.disk_joints_data))
 
             except:
@@ -42,11 +42,11 @@ class MouseUtils(object):
         self.mouse_odom_data = None
         while self.mouse_odom_data is None and not rospy.is_shutdown():
             try:
-                self.mouse_odom_data = rospy.wait_for_message("/mouse/odom", Odometry, timeout=1.0)
-                rospy.loginfo("Current /mouse/odom READY=>" + str(self.mouse_odom_data))
+                self.mouse_odom_data = rospy.wait_for_message("/mouseA/odom", Odometry, timeout=1.0)
+                rospy.loginfo("Current /mouseA/odom READY=>" + str(self.mouse_odom_data))
 
             except:
-                rospy.logerr("Current /mouse/odom not ready yet, retrying for getting odom")
+                rospy.logerr("Current /mouseA/odom not ready yet, retrying for getting odom")
 
         # self.mouse_laser_data = None
         # while self.mouse_laser_data is None and not rospy.is_shutdown():

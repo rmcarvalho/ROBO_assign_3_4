@@ -1,15 +1,15 @@
-<robot name="mouse">
+<robot name="catK" xmlns:xacro="http://ros.org/wiki/xacro">
 
 	<gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-            <robotNamespace>/mouse</robotNamespace>
+            <!-- <robotNamespace>/catK</robotNamespace> -->
 			<legacyModeNS>true</legacyModeNS>
         </plugin>
     </gazebo>
 
 	<gazebo>
         <plugin name="p3d_base_controller" filename="libgazebo_ros_p3d.so">
-            <robotNamespace>/mouse</robotNamespace>
+            <!-- <robotNamespace>/catK</robotNamespace> -->
             <alwaysOn>true</alwaysOn>
             <updateRate>50.0</updateRate>
             <bodyName>base_link</bodyName>
@@ -77,8 +77,9 @@
 					<stddev>0.01</stddev>
 				</noise>
 			</ray>
-			<plugin name="gazebo_ros_mouse_laser_controller" filename="libgazebo_ros_laser.so">
-				<topicName>/mouse/laser/cat_scan</topicName>
+			<plugin name="gazebo_ros_catK_laser_controller" filename="libgazebo_ros_laser.so">
+				<robotNamespace></robotNamespace>
+				<topicName>/catK/laser/cat_scan</topicName>
 				<frameName>mouse_sensor</frameName>
 			</plugin>
 		</sensor>
@@ -282,8 +283,9 @@
 					<stddev>0.01</stddev>
 				</noise>
 			</ray>
-			<plugin name="gazebo_ros_mouse_laser_controller" filename="libgazebo_ros_laser.so">
-				<topicName>/mouse/laser/wall_scan</topicName>
+			<plugin name="gazebo_ros_catK_laser_controller" filename="libgazebo_ros_laser.so">
+				<robotNamespace></robotNamespace>
+				<topicName>/catK/laser/wall_scan</topicName>
 				<frameName>mouse_sensor</frameName>
 			</plugin>
 		</sensor>

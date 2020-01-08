@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import rospy
+import sys
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Header
 from gazebo_msgs.srv import GetModelState, GetModelStateRequest
@@ -45,8 +46,8 @@ class GazeboModelOdom(object):
             self.rate_object.sleep()
 
 if __name__ == "__main__":
-    rospy.init_node('gazebo_model_odom_pubish_node')
-    robot_model_name = "mouse"
+    rospy.init_node(sys.argv[1] + "_odom_pubish_node")
+    robot_model_name = sys.argv[1]
     rate_hz = 50.0
     gazebo_model_odom_obj = GazeboModelOdom(robot_model_name, rate_hz)
     gazebo_model_odom_obj.get_odometry_loop()
