@@ -8,8 +8,6 @@ Ubuntu 18.04
 
 ROS Melodic 
 
-## Dependencies
-
 ## Directory Organization
     .
     ├── mouse_description           # Compiled files (alternatively `dist`)
@@ -23,8 +21,6 @@ ROS Melodic
     └── spawn_robot_tools_pkg  
 
 
-## Makefile
-
 ## To run:
 
 Starts world with robots:
@@ -37,7 +33,6 @@ $ roslaunch mouse_description main.launch
 rostopic pub /mouse/left_front_diff_drive_controller/command std_msgs/Float64 "data: 5.0"
 rostopic pub /mouse/right_front_diff_drive_controller/command std_msgs/Float64 "data: 5.0"
 ```
-
 
 ## Authors
 
