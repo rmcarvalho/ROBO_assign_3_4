@@ -2,14 +2,6 @@
 <launch>
 
     <include file="$(find mouse_description)/launch/start_world.launch"/>
-    <!-- <include file="$(find mouse_description)/launch/put_robot_in_world.launch">
-        <arg name="x" value="0.0" />
-        <arg name="y" value="0.2" />
-        <arg name="z" value="0.2" />
-        <arg name="roll" value="0.0"/>
-        <arg name="pitch" value="0.0"/>
-        <arg name="yaw" value="0.0"/>
-    </include> -->
 
     <group ns="mouseA">
         <param name="tf_prefix" value="mouseA_tf"/>
@@ -23,7 +15,7 @@
         <include file="$(find mouse_description)/launch/mouseA_control.launch"/>   
     </group>
 
-    <group ns="mouseO">
+    <!-- <group ns="mouseO">
         <param name="tf_prefix" value="mouseO_tf"/>
         
         <arg name="model" default="$(find mouse_description)/urdf/mouseO.urdf.xacro"/>
@@ -45,7 +37,7 @@
             args="-urdf -param robot_description -model catK -x 3 -y 3 -z 0" />
 
         <include file="$(find mouse_description)/launch/catK_control.launch"/>   
-    </group>
+    </group> -->
 
     <group ns="catH">
         <param name="tf_prefix" value="catH_tf"/>

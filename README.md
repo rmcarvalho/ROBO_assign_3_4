@@ -3,14 +3,9 @@
 ## To run:
 ```
 
-Starts world:
-
-$ roslaunch mouse_description start_world.launch
+Starts world with robots:
 ```
-
-Mouse in world: 
-```
-$ roslaunch mouse_description put_robot_in_world.launch 
+$ roslaunch mouse_description main.launch
 ```
 
 ## Moving the robot
