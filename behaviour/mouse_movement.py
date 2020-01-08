@@ -14,6 +14,7 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import Point
 from tf.transformations import euler_from_quaternion
 
+
 class MouseUtils(object):
 
     def __init__(self):
@@ -35,7 +36,7 @@ class MouseUtils(object):
         while self.disk_joints_data is None and not rospy.is_shutdown():
             try:
                 self.disk_joints_data = rospy.wait_for_message("/mouseA/joint_states", JointState, timeout=1.0)
-                rospy.loginfo("Current mouse/joint_states READY=>"+str(self.disk_joints_data))
+                rospy.loginfo("Current mouse/joint_states READY=>" + str(self.disk_joints_data))
             except:
                 rospy.logerr("Current mouse/joint_states not ready yet, retrying for getting joint_states")
 
@@ -106,8 +107,8 @@ class MouseUtils(object):
         wheel_dist = 0.2
         wheel_radius = 0.035
 
-        right_wheel_ang_vel = (linear_vel + (angular_vel*(wheel_dist/2.0)))/wheel_radius
-        left_wheel_ang_vel = (linear_vel - (angular_vel*(wheel_dist/2.0)))/wheel_radius
+        right_wheel_ang_vel = (linear_vel + (angular_vel * (wheel_dist / 2.0))) / wheel_radius
+        left_wheel_ang_vel = (linear_vel - (angular_vel * (wheel_dist / 2.0))) / wheel_radius
 
         self.move_joints(roll_speed_left=left_wheel_ang_vel, roll_speed_right=right_wheel_ang_vel)
 
@@ -142,12 +143,12 @@ class MouseUtils(object):
                                                 self.odom.pose.pose.position)
 
         mouse_state = [
-                        round(self.joints.velocity[0],1),
-                        round(distance,1),
-                        round(roll,1),
-                        round(pitch,1),
-                        round(yaw,1)
-                    ]
+            round(self.joints.velocity[0], 1),
+            round(distance, 1),
+            round(roll, 1),
+            round(pitch, 1),
+            round(yaw, 1)
+        ]
 
         return mouse_state
 
@@ -195,6 +196,7 @@ class MouseUtils(object):
     #     rospy.loginfo("Reward_for_efective_movement= "+str(reward_for_efective_movement))
 
     #     return reward
+
 
 # def mouse_systems_test():
 #     rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
@@ -247,6 +249,7 @@ def on_press(key):
 
     return True
 
+
 def on_release(key):
     if key.char == 'w':
         keys[0] = False
@@ -288,29 +291,62 @@ def movement_controller():
     else:
         mouse.move_robot(linear_vel=0.0, angular_vel=0.0)
 
+
 def wander():
-    pass # move until wall found
+    print('wander')
+    pass  # move until wall found
 
-def run():
-    pass # run from mouse
 
-def follow_wall():
-    pass # follow wall if found and no immediate danger
+def run_from_cat(cat_angles):
+    print('catty')
+    print(cat_angles)
+    pass  # run from cat
+
+
+def follow_wall(wall_angles):
+    print('wally')
+    print(wall_angles)
+    pass  # follow wall if found and no immediate danger
+
 
 def decide():
-    pass # check if cat around or wall found decide to follow wall or wander or run
+    cat_angles, wall_angles = evaluate_lasers()
+
+    # run if cat around, follow wall if any found or wander the map
+    if len(cat_angles) > 0:
+        run_from_cat(cat_angles)
+    elif len(wall_angles) > 0:
+        follow_wall(wall_angles)
+    else:
+        wander()
+
+
+def evaluate_lasers():
+    cat_angles = []
+    wall_angles = []
+    max_dif = -float("inf")
+    for  i in range(len(mouse.laser_wall.ranges)):
+        if mouse.laser_cat.ranges[i] >= float("inf"):
+            continue
+
+
+        current_angle = mouse.laser_cat.angle_min + i * mouse.laser_cat.angle_increment
+        if mouse.laser_wall.ranges[i] >= mouse.laser_cat.ranges[i] - 0.04 and mouse.laser_wall.ranges[i] <= mouse.laser_cat.ranges[i] + 0.04:
+            wall_angles.append((current_angle, mouse.laser_wall.ranges[i])) # wall detected
+        else:
+            cat_angles.append((current_angle, mouse.laser_cat.ranges[i])) # cat detected
+    return cat_angles, wall_angles
+
+# check detected obstacles
 
 mouse = None
-# # w, a, s, d, e
-# keys = [False, False, False, False, False]
 
 if __name__ == "__main__":
     # # mouse_systems_test()
-    # rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
-
+    rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
+    print('started...')
     mouse = MouseUtils()
-
-
+    decide()
 # #   KEYBOARD controlls
 #     listener = keyboard.Listener(on_press=on_press, on_release=on_release)
 
@@ -326,4 +362,4 @@ if __name__ == "__main__":
 #         rate.sleep()
 
 #     listener.join()
-    # os.system("stty echo")
+# os.system("stty echo")
