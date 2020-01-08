@@ -17,7 +17,7 @@
     </include>
 
     <include>
-        <uri>model://MAPv0.9</uri>
+        <uri>model://Map</uri>
         <pose>0 0 0 0 0 0</pose>
     </include>
 </world>
