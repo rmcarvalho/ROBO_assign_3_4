@@ -22,7 +22,7 @@ class MouseUtils(object):
 
         rospy.Subscriber("/mouse/joint_states", JointState, self.joints_callback)
         rospy.Subscriber("/mouse/odom", Odometry, self.odom_callback)
-        rospy.Subscriber("/mouse/laser/scan", LaserScan, self.laser_callback)
+        # rospy.Subscriber("/mouse/laser/scan", LaserScan, self.laser_callback)
 
         self._right_roll_vel = rospy.Publisher('/mouse/right_diff_drive_controller/command', Float64, queue_size=1)
         self._left_roll_vel = rospy.Publisher('/mouse/left_diff_drive_controller/command', Float64, queue_size=1)
@@ -48,14 +48,14 @@ class MouseUtils(object):
             except:
                 rospy.logerr("Current /mouse/odom not ready yet, retrying for getting odom")
 
-        self.mouse_laser_data = None
-        while self.mouse_laser_data is None and not rospy.is_shutdown():
-            try:
-                self.mouse_laser_data = rospy.wait_for_message("/mouse/laser/scan", LaserScan, timeout=1.0)
-                rospy.loginfo("Current /mouse/laser/scan READY=>" + str(self.mouse_laser_data))
+        # self.mouse_laser_data = None
+        # while self.mouse_laser_data is None and not rospy.is_shutdown():
+        #     try:
+        #         self.mouse_laser_data = rospy.wait_for_message("/mouse/laser/scan", LaserScan, timeout=1.0)
+        #         rospy.loginfo("Current /mouse/laser/scan READY=>" + str(self.mouse_laser_data))
 
-            except:
-                rospy.logerr("Current /mouse/laser/scan not ready yet, retrying for getting laser scan")
+        #     except:
+        #         rospy.logerr("Current /mouse/laser/scan not ready yet, retrying for getting laser scan")
 
         rospy.loginfo("ALL SENSORS READY")
 
