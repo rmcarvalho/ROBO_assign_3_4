@@ -224,10 +224,9 @@ def movement_controller():
         mouse.move_robot(linear_vel=0.0, angular_vel=0.0)
 
 def clear_states(saved_state):
-    global is_wandering, wander_rotation, is_running, run_rotation, is_following, follow_rotation
+    global is_wandering, wander_rotation, is_running, run_rotation, is_following
     if saved_state != 'follow':
         is_following = False
-        follow_rotation = float("inf")
     if saved_state != 'wander':
         is_wandering = False
         wander_rotation = float("inf")
@@ -294,11 +293,10 @@ def run_from_cat(cat_angles):
     mouse.move_robot(linear_vel=1.0, angular_vel=ang_vel)
 
 is_following = False
-follow_rotation = float("inf")
 
 def follow_wall(wall_angles):
     print('Following Wall')
-    global is_following, follow_rotation
+    global is_following
     
     clear_states("follow")
 
