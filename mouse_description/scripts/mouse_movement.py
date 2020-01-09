@@ -308,16 +308,17 @@ def follow_wall(wall_angles):
     
     alpha = math.pi/2 - closest_wall[0]
 
-    ang_vel = (20 * math.sin(alpha) - (closest_wall[1]- 0))*0.5
+    ang_vel = (-15 * math.sin(alpha) - (closest_wall[1]- 0.1))*0.25
 
     mouse.move_robot(linear_vel=1.0, angular_vel=ang_vel)
 
 
 def decide():
     cat_angles, wall_angles = evaluate_lasers()
-
+    val = random.uniform(0,1) # to account for false positives
+    print val
     # run if cat around, follow wall if any found or wander the map
-    if len(cat_angles) > 0:
+    if len(cat_angles) > 0 and val < 0.4:
         run_from_cat(cat_angles)
     elif len(wall_angles) > 0:
         follow_wall(wall_angles)
@@ -338,7 +339,7 @@ def evaluate_lasers():
         if mouse.laser_wall.ranges[i] >= mouse.laser_cat.ranges[i] - 0.06 and mouse.laser_wall.ranges[i] <= mouse.laser_cat.ranges[i] + 0.06:
             wall_angles.append((current_angle, mouse.laser_wall.ranges[i])) # wall detected
         else:
-            print mouse.laser_cat.ranges[i] - mouse.laser_wall.ranges[i]
+            # print mouse.laser_cat.ranges[i] - mouse.laser_wall.ranges[i]
             cat_angles.append((current_angle, mouse.laser_cat.ranges[i])) # cat detected
     return cat_angles, wall_angles
 

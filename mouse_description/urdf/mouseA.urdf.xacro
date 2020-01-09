@@ -48,41 +48,6 @@
         <mu1>1000000.0</mu1>
         <mu2>1000000.0</mu2>
         <material>Gazebo/FlatBlack</material>
-
-		<sensor type="ray" name="det_cat_ray_sensor">
-			<pose>0.36 0 -0.05 0 0 0</pose>
-			<visualize>true</visualize>
-			<update_rate>40</update_rate>
-			<ray>
-				<scan>
-					<horizontal>
-						<samples>720</samples>
-						<resolution>1</resolution>
-						<min_angle>-1.9198621772</min_angle>
-						<max_angle>1.9198621772</max_angle>
-					</horizontal>
-				</scan>
-				<range>
-					<min>0.10</min>
-					<max>2.5</max>
-					<resolution>1</resolution>
-				</range>
-				<noise>
-					<type>gaussian</type>
-					<!-- Noise parameters based on published spec for Hokuyo laser
-						achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
-						stddev of 0.01m will put 99.7% of samples within 0.03m of the true
-						reading. -->
-					<mean>0.0</mean>
-					<stddev>0.01</stddev>
-				</noise>
-			</ray>
-			<plugin name="gazebo_ros_mouseA_laser_controller" filename="libgazebo_ros_laser.so">
-				<robotNamespace></robotNamespace>
-				<topicName>/mouseA/laser/cat_scan</topicName>
-				<frameName>mouseA_sensor</frameName>
-			</plugin>
-		</sensor>
     </gazebo>
 
 	<!-- Right Wheel  -->
@@ -256,7 +221,7 @@
 			<ray>
 				<scan>
 					<horizontal>
-						<samples>720</samples>
+						<samples>200</samples>
 						<resolution>1</resolution>
 						<min_angle>-1.9198621772</min_angle>
 						<max_angle>1.9198621772</max_angle>
@@ -280,6 +245,60 @@
 			<plugin name="gazebo_ros_mouseA_laser_controller" filename="libgazebo_ros_laser.so">
 				<robotNamespace></robotNamespace>
 				<topicName>/mouseA/laser/wall_scan</topicName>
+				<frameName>mouseA_sensor</frameName>
+			</plugin>
+		</sensor>
+	</gazebo>
+
+
+	<link name="mouseA_sensor_cat">
+		<visual>
+			<origin xyz="0 0 0"/>
+			<geometry>
+				<sphere radius="0.01"/>
+			</geometry>
+			<material name="black"/>
+		</visual>
+	</link>
+	
+	<joint name="sensor_cat_joint" type="fixed">
+		<parent link="base_link"/>
+		<child link="mouseA_sensor_cat"/>
+		<origin rpy="0 0 0" xyz="0.36 0 -0.05"/>
+	</joint>
+
+	<gazebo reference="mouseA_sensor_cat">
+		<sensor type="ray" name="det_cat_ray_sensor">
+			<pose>0 0 0 0 0 0</pose>
+			<visualize>true</visualize>
+			<update_rate>40</update_rate>
+			<ray>
+				<scan>
+					<horizontal>
+						<samples>200</samples>
+						<resolution>1</resolution>
+						<min_angle>-1.9198621772</min_angle>
+						<max_angle>1.9198621772</max_angle>
+					</horizontal>
+				</scan>
+				<range>
+					<min>0.10</min>
+					<max>2.5</max>
+					<resolution>1</resolution>
+				</range>
+				<noise>
+					<type>gaussian</type>
+					<!-- Noise parameters based on published spec for Hokuyo laser
+						achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
+						stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+						reading. -->
+					<mean>0.0</mean>
+					<stddev>0.01</stddev>
+				</noise>
+			</ray>
+			<plugin name="gazebo_ros_mouseA_laser_controller" filename="libgazebo_ros_laser.so">
+				<robotNamespace></robotNamespace>
+				<topicName>/mouseA/laser/cat_scan</topicName>
 				<frameName>mouseA_sensor</frameName>
 			</plugin>
 		</sensor>
