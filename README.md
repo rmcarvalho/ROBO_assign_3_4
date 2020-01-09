@@ -8,6 +8,20 @@ Ubuntu 18.04
 
 ROS Melodic 
 
+## Dependencies
+
+ROS Melodic
+
+Catkin Workspace
+
+Gazebo
+
+gazebo_ros package
+
+ros_state_publisher
+
+
+
 ## Directory Organization
     .
     ├── mouse_description           # Compiled files (alternatively `dist`)
