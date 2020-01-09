@@ -359,19 +359,3 @@ if __name__ == "__main__":
     while True:
         decide()
         rate.sleep()
-# #   KEYBOARD controlls
-#     listener = keyboard.Listener(on_press=on_press, on_release=on_release)
-
-#     # os.system("stty -echo")
-#     listener.start()
-
-#     rospy.loginfo('Started keyboard listener')
-
-#     rate = rospy.Rate(10)
-
-#     while not keys[4]:
-#         movement_controller()
-#         rate.sleep()
-
-#     listener.join()
-# os.system("stty echo")
