@@ -34,6 +34,8 @@ rostopic pub /mouse/left_front_diff_drive_controller/command std_msgs/Float64 "d
 rostopic pub /mouse/right_front_diff_drive_controller/command std_msgs/Float64 "data: 5.0"
 ```
 
+To run with a second robot, drag the package of that robot to the catkin's workspace.
+
 ## Authors
 
 Ricardo Carvalho - up201503717
