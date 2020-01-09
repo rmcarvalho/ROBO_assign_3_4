@@ -50,7 +50,7 @@
         <material>Gazebo/FlatBlack</material>
 
 		<sensor type="ray" name="det_cat_ray_sensor">
-			<pose>0.3500001 0 -0.05 0 0 0</pose>
+			<pose>0.36 0 -0.05 0 0 0</pose>
 			<visualize>true</visualize>
 			<update_rate>40</update_rate>
 			<ray>
@@ -251,7 +251,7 @@
 	<joint name="sensor_joint" type="fixed">
 		<parent link="base_link"/>
 		<child link="mouseA_sensor"/>
-		<origin rpy="0 0 0" xyz="0.3500001 0 1.1"/>
+		<origin rpy="0 0 0" xyz="0.36 0 1.1"/>
 	</joint>
 
 	<gazebo reference="mouseA_sensor">

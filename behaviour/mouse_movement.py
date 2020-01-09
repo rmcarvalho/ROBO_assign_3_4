@@ -7,6 +7,7 @@ import rospy
 import math
 import copy
 import numpy
+import random
 from std_msgs.msg import Float64
 from sensor_msgs.msg import JointState
 from sensor_msgs.msg import LaserScan
@@ -152,19 +153,6 @@ class MouseUtils(object):
 
         return mouse_state
 
-    # def observation_checks(self, mouse_state):
-    #     # Maximum distance to travel permited in meters from origin
-    #     max_distance=10.0
-
-    #     if (mouse_state[1] > max_distance):
-    #         rospy.logerr("Mouse Too Far==>"+str(mouse_state[1]))
-    #         done = True
-    #     else:
-    #         rospy.loginfo("Mouse NOT Too Far==>"+str(mouse_state[1]))
-    #         done = False
-
-    #     return done
-
     def get_distance_from_point(self, pstart, p_end):
         """
         Given a Vector3 Object, get distance from current position
@@ -177,62 +165,6 @@ class MouseUtils(object):
         distance = numpy.linalg.norm(a - b)
 
         return distance
-
-    # def get_reward_for_observations(self, state):
-
-    #     # We reward it for lower speeds and distance traveled
-
-    #     speed = state[0]
-    #     distance = state[1]
-
-    #     # Positive Reinforcement
-    #     reward_distance = distance * 10.0
-    #     # Negative Reinforcement for magnitude of speed
-    #     reward_for_efective_movement = -1 * abs(speed)
-
-    #     reward = reward_distance + reward_for_efective_movement
-
-    #     rospy.loginfo("Reward_distance="+str(reward_distance))
-    #     rospy.loginfo("Reward_for_efective_movement= "+str(reward_for_efective_movement))
-
-    #     return reward
-
-
-# def mouse_systems_test():
-#     rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
-
-#     mouse_utils_object = MouseUtils()
-
-#     rospy.loginfo("Moving to Linear==>1.0 Angular==>0.0")
-#     mouse_utils_object.move_robot(linear_vel=0.5, angular_vel=0.0)
-#     time.sleep(4)
-
-#     rospy.loginfo("Stopping")
-#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
-#     time.sleep(4)
-
-#     rospy.loginfo("Moving to Linear==>0 Angular==>-1.0")
-#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=-1.0)
-#     time.sleep(4)
-
-#     rospy.loginfo("Stoping")
-#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
-#     time.sleep(4)
-
-#     rospy.loginfo("Moving to Linear==>-0.2 Angular==>0")
-#     mouse_utils_object.move_robot(linear_vel=-0.2, angular_vel=0.0)
-#     time.sleep(4)
-
-#     rospy.loginfo("Stoping")
-#     mouse_utils_object.move_robot(linear_vel=0.0, angular_vel=0.0)
-#     time.sleep(4)
-
-#     mouse_state = mouse_utils_object.get_mouse_state()
-#     done = mouse_utils_object.observation_checks(mouse_state)
-#     reward = mouse_utils_object.get_reward_for_observations(mouse_state)
-
-#     rospy.loginfo("Done==>"+str(done))
-#     rospy.loginfo("Reward==>"+str(reward))
 
 def on_press(key):
     if key.char == 'w':
@@ -291,22 +223,96 @@ def movement_controller():
     else:
         mouse.move_robot(linear_vel=0.0, angular_vel=0.0)
 
+def clear_states(saved_state):
+    global is_wandering, wander_rotation, is_running, run_rotation, is_following, follow_rotation
+    if saved_state != 'follow':
+        is_following = False
+        follow_rotation = float("inf")
+    if saved_state != 'wander':
+        is_wandering = False
+        wander_rotation = float("inf")
+    if saved_state != 'run':
+        is_running = False
 
+#reduce angle to being between -pi and pi
+def lowest_angle(angle):
+    while angle > math.pi:
+        angle -= 2*math.pi
+    while angle < math.pi:
+        angle += 2*math.pi
+    return angle
+
+is_wandering = False
+wander_rotation = float("inf")
 def wander():
-    print('wander')
-    pass  # move until wall found
+    print("Wandering...")
+    global is_wandering, wander_rotation
+    if is_running:
+        is_wandering=True
 
+    clear_states("wander")
 
+    ang_vel = 0.0
+    mouse_state = mouse.get_mouse_state()
+    ang_y = mouse_state[3]
+    if not is_wandering:
+        is_wandering = True
+        wander_rotation = random.uniform(-math.pi, math.pi) + ang_y
+
+    angle_diff = (ang_y - wander_rotation) * 180 / math.pi
+
+    if wander_rotation != float("inf") and angle_diff >= 10:
+        ang_vel = 1.0 * angle_diff / abs(angle_diff)
+    elif angle_diff < 10:
+        wander_rotation = float("inf")
+
+    mouse.move_robot(linear_vel=1.0, angular_vel=ang_vel)
+
+is_running = False
 def run_from_cat(cat_angles):
-    print('catty')
-    print(cat_angles)
-    pass  # run from cat
+    print('Running From Cat')
+    global is_running
+    ang_vel = 0.0
+    
+    if not is_running:
+        is_running = True
 
+    clear_states("run")
+    
+    closest_cat = (0,float("inf"))
+        
+    for angle, distance in cat_angles:
+        if distance < closest_cat[1]:
+            closest_cat = (angle, distance)
+
+    mouse_state = mouse.get_mouse_state()
+    ang_y = mouse_state[3]
+
+    angle_diff = (closest_cat[0] + math.pi) * 180 / math.pi
+    ang_vel = 1.0 * angle_diff / abs(angle_diff)
+    
+    mouse.move_robot(linear_vel=1.0, angular_vel=ang_vel)
+
+is_following = False
+follow_rotation = float("inf")
 
 def follow_wall(wall_angles):
-    print('wally')
-    print(wall_angles)
-    pass  # follow wall if found and no immediate danger
+    print('Following Wall')
+    global is_following, follow_rotation
+    
+    clear_states("follow")
+
+    closest_wall = (0,float("inf"))
+        
+    for angle, distance in wall_angles:
+        if distance < closest_wall[1]:
+            closest_wall = (angle, distance)
+    
+    alpha = math.pi/2 - closest_wall[0]
+
+    ang_vel = (20 * math.sin(alpha) - (closest_wall[1]- 0))*0.5
+
+    mouse.move_robot(linear_vel=1.0, angular_vel=ang_vel)
 
 
 def decide():
@@ -326,14 +332,15 @@ def evaluate_lasers():
     wall_angles = []
     max_dif = -float("inf")
     for  i in range(len(mouse.laser_wall.ranges)):
-        if mouse.laser_cat.ranges[i] >= float("inf"):
+        if mouse.laser_cat.ranges[i] >= mouse.laser_cat.range_max:
             continue
 
 
         current_angle = mouse.laser_cat.angle_min + i * mouse.laser_cat.angle_increment
-        if mouse.laser_wall.ranges[i] >= mouse.laser_cat.ranges[i] - 0.04 and mouse.laser_wall.ranges[i] <= mouse.laser_cat.ranges[i] + 0.04:
+        if mouse.laser_wall.ranges[i] >= mouse.laser_cat.ranges[i] - 0.06 and mouse.laser_wall.ranges[i] <= mouse.laser_cat.ranges[i] + 0.06:
             wall_angles.append((current_angle, mouse.laser_wall.ranges[i])) # wall detected
         else:
+            print mouse.laser_cat.ranges[i] - mouse.laser_wall.ranges[i]
             cat_angles.append((current_angle, mouse.laser_cat.ranges[i])) # cat detected
     return cat_angles, wall_angles
 
@@ -344,9 +351,14 @@ mouse = None
 if __name__ == "__main__":
     # # mouse_systems_test()
     rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
-    print('started...')
+
     mouse = MouseUtils()
-    decide()
+    
+    rate = rospy.Rate(10)
+
+    while True:
+        decide()
+        rate.sleep()
 # #   KEYBOARD controlls
 #     listener = keyboard.Listener(on_press=on_press, on_release=on_release)
 
