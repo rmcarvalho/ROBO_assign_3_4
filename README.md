@@ -8,6 +8,20 @@ Ubuntu 18.04
 
 ROS Melodic 
 
+## Dependencies
+
+ROS Melodic
+
+Catkin Workspace
+
+Gazebo
+
+gazebo_ros package
+
+ros_state_publisher
+
+
+
 ## Directory Organization
     .
     ├── mouse_description           # Compiled files (alternatively `dist`)
@@ -33,6 +47,8 @@ $ roslaunch mouse_description main.launch
 rostopic pub /mouse/left_front_diff_drive_controller/command std_msgs/Float64 "data: 5.0"
 rostopic pub /mouse/right_front_diff_drive_controller/command std_msgs/Float64 "data: 5.0"
 ```
+
+To run with a second robot, drag the package of that robot to the catkin's workspace.
 
 ## Authors
 
