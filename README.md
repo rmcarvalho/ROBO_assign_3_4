@@ -37,6 +37,7 @@ rostopic pub /mouse/right_front_diff_drive_controller/command std_msgs/Float64 "
 ## Authors
 
 Ricardo Carvalho - up201503717
+
 Vítor Magalhães - up201503447
 
 ## Course
