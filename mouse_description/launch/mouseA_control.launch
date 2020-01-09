@@ -26,4 +26,10 @@
         output="screen" args="mouseA">
   </node>
 
+  <node name="mouseA_decision_node"
+        pkg="mouse_description"
+        type="mouse_movement.py" respawn="false"
+        output="screen" args="">
+  </node>
+
 </launch>

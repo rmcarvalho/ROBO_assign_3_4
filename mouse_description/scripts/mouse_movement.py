@@ -348,7 +348,7 @@ mouse = None
 
 if __name__ == "__main__":
     # # mouse_systems_test()
-    rospy.init_node('mouse_systems_test_node', anonymous=True, log_level=rospy.INFO)
+    rospy.init_node('mouseA_decision_node', anonymous=True, log_level=rospy.INFO)
 
     mouse = MouseUtils()
     
