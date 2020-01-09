@@ -15,40 +15,18 @@
         <include file="$(find mouse_description)/launch/mouseA_control.launch"/>   
     </group>
 
-    <!-- <group ns="mouseO">
-        <param name="tf_prefix" value="mouseO_tf"/>
-        
-        <arg name="model" default="$(find mouse_description)/urdf/mouseO.urdf.xacro"/>
-        <param name="robot_description" command="$(find xacro)/xacro '$(arg model)'"/>
+    <!-- <group ns="cat">
+        <param name="tf_prefix" value="cat_tf" />
 
-        <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -param robot_description -model mouseO -x 2 -y 2 -z 0" />
+        <!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file-->
+        <param name="robot_description" command="$(find xacro)/xacro '$(find cat_description)/urdf/cat.xacro'" />
 
-        <include file="$(find mouse_description)/launch/mouseO_control.launch"/>   
-    </group>
+        <!-- Run a python script to send a service call to gazebo_ros to spawn a URDF robot -->
+        <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+        args="-urdf -param robot_description -model cat -x -5 -y 3 -z 0 "/>
 
-    <group ns="catK">
-        <param name="tf_prefix" value="catK_tf"/>
-        
-        <arg name="model" default="$(find mouse_description)/urdf/catK.urdf.xacro"/>
-        <param name="robot_description" command="$(find xacro)/xacro '$(arg model)'"/>
-
-        <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -param robot_description -model catK -x 3 -y 3 -z 0" />
-
-        <include file="$(find mouse_description)/launch/catK_control.launch"/>   
+        <!-- ros_control cat launch file -->
+        <include file="$(find cat_control)/launch/cat_control.launch" />
     </group> -->
-
-    <group ns="catH">
-        <param name="tf_prefix" value="catH_tf"/>
-        
-        <arg name="model" default="$(find mouse_description)/urdf/catH.urdf.xacro"/>
-        <param name="robot_description" command="$(find xacro)/xacro '$(arg model)'"/>
-
-        <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-            args="-urdf -param robot_description -model catH -x 4 -y 4 -z 0" />
-
-        <include file="$(find mouse_description)/launch/catH_control.launch"/>   
-    </group>
 
 </launch>
